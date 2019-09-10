@@ -4,11 +4,14 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="hexo demo, 爱吃苹果的西瓜">
+    <meta name="keywords" content="观察者模式, 爱吃苹果的西瓜">
     <meta name="description" content="
-充满学习热情的帅小伙719383495qq@gmail.com719383495@qq.comgfuhttps://github.com/blinkfox/hexo-theme-matery
+当对象间存在一对多关系时，则使用观察者模式（Observer Pattern）。比如，当一个对象被修改时，则会自动通知它的依赖对象。观察者模式属于行为型模式。
 
-        document.query">
+
+使用场景
+
+一个抽象模型有两个方面，其中一个方面依赖于另一个方面。将这些方">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -16,7 +19,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>hexo demo | 爱吃苹果的西瓜</title>
+    <title>观察者模式 | 爱吃苹果的西瓜</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -263,13 +266,13 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/9.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/10.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        hexo demo
+                        观察者模式
                     </div>
                 </div>
             </div>
@@ -384,8 +387,8 @@
                                 <span class="chip bg-color">java</span>
                             </a>
                         
-                            <a href="/tags/github/" target="_blank">
-                                <span class="chip bg-color">github</span>
+                            <a href="/tags/designe-pattern/" target="_blank">
+                                <span class="chip bg-color">designe pattern</span>
                             </a>
                         
                     </div>
@@ -396,8 +399,8 @@
                     <div class="post-cate">
                         <i class="fa fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/link/" class="post-category" target="_blank">
-                                link
+                            <a href="/categories/designe-pattern/" class="post-category" target="_blank">
+                                designe pattern
                             </a>
                         
                     </div>
@@ -424,9 +427,117 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <a id="more"></a>
-<p>充满学习热情的帅小伙<br><a href="mailto:719383495qq@gmail.com" target="_blank" rel="noopener">719383495qq@gmail.com</a><br><a href="mailto:719383495@qq.com" target="_blank" rel="noopener">719383495@qq.com</a><br>gfu<br><a href="https://github.com/blinkfox/hexo-theme-matery">https://github.com/blinkfox/hexo-theme-matery</a></p>
-<script>
+                <blockquote>
+<p>当对象间存在一对多关系时，则使用观察者模式（Observer Pattern）。比如，当一个对象被修改时，则会自动通知它的依赖对象。观察者模式属于行为型模式。</p>
+</blockquote>
+<a id="more"></a>
+<p><strong>使用场景</strong></p>
+<ul>
+<li>一个抽象模型有两个方面，其中一个方面依赖于另一个方面。将这些方面封装在独立的对象中使它们可以各自独立地改变和复用。</li>
+<li>一个对象的改变将导致其他一个或多个对象也发生改变，而不知道具体有多少对象将发生改变，可以降低对象之间的耦合度。</li>
+<li>一个对象必须通知其他对象，而并不知道这些对象是谁。</li>
+<li>需要在系统中创建一个触发链，A对象的行为将影响B对象，B对象的行为将影响C对象……，可以使用观察者模式创建一种链式触发机制。</li>
+</ul>
+<p><strong>注意事项：</strong> </p>
+<ol>
+<li>JAVA 中已经有了对观察者模式的支持类。</li>
+<li>避免循环引用。 </li>
+<li>如果顺序执行，某一观察者错误会导致系统卡壳，一般采用异步方式。</li>
+</ol>
+<p><img src="https://upload-images.jianshu.io/upload_images/17992920-a634b3dd05437c31.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="UML"></p>
+<p><em>简单的代码实现</em></p>
+<pre><code>/**
+ * 日志系统
+ *
+ * @author 719383495@qq.com |719383495qq@gmail.com |gfu
+ * @date 2019/8/27
+ */
+public class Main {
+
+    public static void main(String[] args) {
+        SubjectImpl subject = new SubjectImpl();
+        new ObserverImpl(subject);
+        new ObserverImpl(subject);
+        new ObserverImpl(subject);
+        subject.setUsername("张三");
+        new ObserverImpl(subject);
+        subject.setUsername("李四");
+        subject.notifyObserver();
+        new ObserverImpl(subject);
+        new ObserverImpl(subject);
+        subject.setUsername("王五");
+        new ObserverImpl(subject);
+        subject.notifyObserver();
+    }
+}</code></pre><pre><code>public interface Observer {
+
+    void update(String username, int id);
+
+}</code></pre><pre><code>public class ObserverImpl implements Observer {
+
+    private String username;
+    private Subject subject;
+    private int id;
+
+    @Override
+    public void update(String username,int id) {
+        this.username = username;
+        this.id = id;
+        display();
+    }
+
+    public ObserverImpl(Subject subject) {
+        this.subject = subject;
+        this.subject.registerObserver(this);
+    }
+
+    public void display() {
+        System.out.println("update" +this.id+" : "+ this.username);
+    }
+
+}</code></pre><pre><code>public interface Subject {
+
+    void registerObserver(Observer observer);
+
+    void removeObserver(Observer observer);
+
+    void notifyObserver();
+
+}</code></pre><pre><code>import java.util.ArrayList;
+
+
+public class SubjectImpl implements Subject {
+
+    private ArrayList&lt;Observer&gt; observers;
+    private String username;
+    private int id;
+
+    public SubjectImpl() {
+        observers = new ArrayList&lt;&gt;();
+    }
+
+    @Override
+    public void registerObserver(Observer observer) {
+        observers.add(observer);
+    }
+
+    @Override
+    public void removeObserver(Observer observer) {
+        observers.remove(observer);
+    }
+
+    @Override
+    public void notifyObserver() {
+        int len = observers.size();
+        for (int i = 0; i &lt;len; i++) {
+            observers.get(i).update(username, i);
+        }
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+}</code></pre><script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
             if (!el.dataset.src) { return; }
@@ -602,9 +713,9 @@
             <br/>
             <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
                   property="dct:title" rel="dct:type">
-                    《hexo demo》
+                    《观察者模式》
                 </span> 由
-            <a xmlns:cc="http://creativecommons.org/ns#" href="/2019/09/10/test/" property="cc:attributionName"
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2019/09/10/观察者模式/" property="cc:attributionName"
                rel="cc:attributionURL">
                 gfu
             </a> 采用
@@ -644,9 +755,10 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/2019/09/10/观察者模式/">
                     <div class="card-image">
@@ -670,9 +782,9 @@
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-09-10
-                        </span>
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-09-10
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
@@ -685,6 +797,7 @@
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -707,32 +820,51 @@
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2019/09/01/hello-world/">
+                <a href="/2019/09/10/test/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Hello World">
+                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="hexo demo">
                         
-                        <span class="card-title">Hello World</span>
+                        <span class="card-title">hexo demo</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hex
+                            
+充满学习热情的帅小伙719383495qq@gmail.com719383495@qq.comgfuhttps://github.com/blinkfox/hexo-theme-matery
+
+        document.query
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-09-01
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-09-10
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fa fa-user fa-fw"></i>
-                            gfu
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/link/" class="post-category" target="_blank">
+                                    link
+                                </a>
+                            
                             
                         </span>
                     </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/java/" target="_blank">
+                        <span class="chip bg-color">java</span>
+                    </a>
+                    
+                    <a href="/tags/github/" target="_blank">
+                        <span class="chip bg-color">github</span>
+                    </a>
+                    
                 </div>
                 
             </div>
