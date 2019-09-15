@@ -33,8 +33,7 @@
     </style>
 
     <script src="/libs/jquery/jquery-2.2.0.min.js"></script>
-<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
-<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+</head>
 
 
 <body>
@@ -444,98 +443,17 @@
 <li>如果顺序执行，某一观察者错误会导致系统卡壳，一般采用异步方式。</li>
 </ol>
 <p><em>简单的代码实现</em></p>
-<pre><code>/**
- * 日志系统
- *
- * @author 719383495@qq.com |719383495qq@gmail.com |gfu
- * @date 2019/8/27
- */
-public class Main {
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 日志系统</span><br><span class="line"> *</span><br><span class="line"> * @author 719383495@qq.com |719383495qq@gmail.com |gfu</span><br><span class="line"> * @date 2019/8/27</span><br><span class="line"> */</span><br><span class="line">public class Main {</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) {</span><br><span class="line">        SubjectImpl subject = new SubjectImpl();</span><br><span class="line">        new ObserverImpl(subject);</span><br><span class="line">        new ObserverImpl(subject);</span><br><span class="line">        new ObserverImpl(subject);</span><br><span class="line">        subject.setUsername("张三");</span><br><span class="line">        new ObserverImpl(subject);</span><br><span class="line">        subject.setUsername("李四");</span><br><span class="line">        subject.notifyObserver();</span><br><span class="line">        new ObserverImpl(subject);</span><br><span class="line">        new ObserverImpl(subject);</span><br><span class="line">        subject.setUsername("王五");</span><br><span class="line">        new ObserverImpl(subject);</span><br><span class="line">        subject.notifyObserver();</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
 
-    public static void main(String[] args) {
-        SubjectImpl subject = new SubjectImpl();
-        new ObserverImpl(subject);
-        new ObserverImpl(subject);
-        new ObserverImpl(subject);
-        subject.setUsername("张三");
-        new ObserverImpl(subject);
-        subject.setUsername("李四");
-        subject.notifyObserver();
-        new ObserverImpl(subject);
-        new ObserverImpl(subject);
-        subject.setUsername("王五");
-        new ObserverImpl(subject);
-        subject.notifyObserver();
-    }
-}</code></pre><pre><code>public interface Observer {
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public interface Observer {</span><br><span class="line"></span><br><span class="line">    void update(String username, int id);</span><br><span class="line"></span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
 
-    void update(String username, int id);
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">public class ObserverImpl implements Observer {</span><br><span class="line"></span><br><span class="line">    private String username;</span><br><span class="line">    private Subject subject;</span><br><span class="line">    private int id;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void update(String username,int id) {</span><br><span class="line">        this.username = username;</span><br><span class="line">        this.id = id;</span><br><span class="line">        display();</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    public ObserverImpl(Subject subject) {</span><br><span class="line">        this.subject = subject;</span><br><span class="line">        this.subject.registerObserver(this);</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    public void display() {</span><br><span class="line">        System.out.println("update" +this.id+" : "+ this.username);</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
 
-}</code></pre><pre><code>public class ObserverImpl implements Observer {
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public interface Subject {</span><br><span class="line"></span><br><span class="line">    void registerObserver(Observer observer);</span><br><span class="line"></span><br><span class="line">    void removeObserver(Observer observer);</span><br><span class="line"></span><br><span class="line">    void notifyObserver();</span><br><span class="line"></span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
 
-    private String username;
-    private Subject subject;
-    private int id;
+<figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">import java.util.ArrayList;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">public class SubjectImpl implements Subject {</span><br><span class="line"></span><br><span class="line">    private ArrayList&lt;Observer&gt; observers;</span><br><span class="line">    private String username;</span><br><span class="line">    private int id;</span><br><span class="line"></span><br><span class="line">    public SubjectImpl() {</span><br><span class="line">        observers = new ArrayList&lt;&gt;();</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void registerObserver(Observer observer) {</span><br><span class="line">        observers.add(observer);</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void removeObserver(Observer observer) {</span><br><span class="line">        observers.remove(observer);</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void notifyObserver() {</span><br><span class="line">        int len = observers.size();</span><br><span class="line">        for (int i = 0; i &lt;len; i++) {</span><br><span class="line">            observers.get(i).update(username, i);</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    public void setUsername(String username) {</span><br><span class="line">        this.username = username;</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
 
-    @Override
-    public void update(String username,int id) {
-        this.username = username;
-        this.id = id;
-        display();
-    }
-
-    public ObserverImpl(Subject subject) {
-        this.subject = subject;
-        this.subject.registerObserver(this);
-    }
-
-    public void display() {
-        System.out.println("update" +this.id+" : "+ this.username);
-    }
-
-}</code></pre><pre><code>public interface Subject {
-
-    void registerObserver(Observer observer);
-
-    void removeObserver(Observer observer);
-
-    void notifyObserver();
-
-}</code></pre><pre><code>import java.util.ArrayList;
-
-
-public class SubjectImpl implements Subject {
-
-    private ArrayList&lt;Observer&gt; observers;
-    private String username;
-    private int id;
-
-    public SubjectImpl() {
-        observers = new ArrayList&lt;&gt;();
-    }
-
-    @Override
-    public void registerObserver(Observer observer) {
-        observers.add(observer);
-    }
-
-    @Override
-    public void removeObserver(Observer observer) {
-        observers.remove(observer);
-    }
-
-    @Override
-    public void notifyObserver() {
-        int len = observers.size();
-        for (int i = 0; i &lt;len; i++) {
-            observers.get(i).update(username, i);
-        }
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-}</code></pre><script>
+<script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
             if (!el.dataset.src) { return; }
