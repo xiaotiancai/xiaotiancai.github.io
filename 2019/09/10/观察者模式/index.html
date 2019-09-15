@@ -33,7 +33,8 @@
     </style>
 
     <script src="/libs/jquery/jquery-2.2.0.min.js"></script>
-</head>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 
 
 <body>
@@ -443,17 +444,98 @@
 <li>如果顺序执行，某一观察者错误会导致系统卡壳，一般采用异步方式。</li>
 </ol>
 <p><em>简单的代码实现</em></p>
-<figure class="highlight haxe"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 日志系统</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * @author 719383495@qq.com |719383495qq@gmail.com |gfu</span></span><br><span class="line"><span class="comment"> * @date 2019/8/27</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>{</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> void main(<span class="keyword">String</span>[] args) {</span><br><span class="line">        SubjectImpl subject = <span class="keyword">new</span> <span class="type">SubjectImpl</span>();</span><br><span class="line">        <span class="keyword">new</span> <span class="type">ObserverImpl</span>(subject);</span><br><span class="line">        <span class="keyword">new</span> <span class="type">ObserverImpl</span>(subject);</span><br><span class="line">        <span class="keyword">new</span> <span class="type">ObserverImpl</span>(subject);</span><br><span class="line">        subject.setUsername(<span class="string">"张三"</span>);</span><br><span class="line">        <span class="keyword">new</span> <span class="type">ObserverImpl</span>(subject);</span><br><span class="line">        subject.setUsername(<span class="string">"李四"</span>);</span><br><span class="line">        subject.notifyObserver();</span><br><span class="line">        <span class="keyword">new</span> <span class="type">ObserverImpl</span>(subject);</span><br><span class="line">        <span class="keyword">new</span> <span class="type">ObserverImpl</span>(subject);</span><br><span class="line">        subject.setUsername(<span class="string">"王五"</span>);</span><br><span class="line">        <span class="keyword">new</span> <span class="type">ObserverImpl</span>(subject);</span><br><span class="line">        subject.notifyObserver();</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<pre><code>/**
+ * 日志系统
+ *
+ * @author 719383495@qq.com |719383495qq@gmail.com |gfu
+ * @date 2019/8/27
+ */
+public class Main {
 
-<figure class="highlight routeros"><table><tbody><tr><td class="code"><pre><span class="line">public<span class="built_in"> interface </span>Observer {</span><br><span class="line"></span><br><span class="line">    void update(String username, int id);</span><br><span class="line"></span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+    public static void main(String[] args) {
+        SubjectImpl subject = new SubjectImpl();
+        new ObserverImpl(subject);
+        new ObserverImpl(subject);
+        new ObserverImpl(subject);
+        subject.setUsername("张三");
+        new ObserverImpl(subject);
+        subject.setUsername("李四");
+        subject.notifyObserver();
+        new ObserverImpl(subject);
+        new ObserverImpl(subject);
+        subject.setUsername("王五");
+        new ObserverImpl(subject);
+        subject.notifyObserver();
+    }
+}</code></pre><pre><code>public interface Observer {
 
-<figure class="highlight java"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ObserverImpl</span> <span class="keyword">implements</span> <span class="title">Observer</span> </span>{</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String username;</span><br><span class="line">    <span class="keyword">private</span> Subject subject;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> id;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">(String username,<span class="keyword">int</span> id)</span> </span>{</span><br><span class="line">        <span class="keyword">this</span>.username = username;</span><br><span class="line">        <span class="keyword">this</span>.id = id;</span><br><span class="line">        display();</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ObserverImpl</span><span class="params">(Subject subject)</span> </span>{</span><br><span class="line">        <span class="keyword">this</span>.subject = subject;</span><br><span class="line">        <span class="keyword">this</span>.subject.registerObserver(<span class="keyword">this</span>);</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">display</span><span class="params">()</span> </span>{</span><br><span class="line">        System.out.println(<span class="string">"update"</span> +<span class="keyword">this</span>.id+<span class="string">" : "</span>+ <span class="keyword">this</span>.username);</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+    void update(String username, int id);
 
-<figure class="highlight routeros"><table><tbody><tr><td class="code"><pre><span class="line">public<span class="built_in"> interface </span>Subject {</span><br><span class="line"></span><br><span class="line">    void registerObserver(Observer observer);</span><br><span class="line"></span><br><span class="line">    void removeObserver(Observer observer);</span><br><span class="line"></span><br><span class="line">    void notifyObserver();</span><br><span class="line"></span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+}</code></pre><pre><code>public class ObserverImpl implements Observer {
 
-<figure class="highlight java"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SubjectImpl</span> <span class="keyword">implements</span> <span class="title">Subject</span> </span>{</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> ArrayList&lt;Observer&gt; observers;</span><br><span class="line">    <span class="keyword">private</span> String username;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> id;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">SubjectImpl</span><span class="params">()</span> </span>{</span><br><span class="line">        observers = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">registerObserver</span><span class="params">(Observer observer)</span> </span>{</span><br><span class="line">        observers.add(observer);</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">removeObserver</span><span class="params">(Observer observer)</span> </span>{</span><br><span class="line">        observers.remove(observer);</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">notifyObserver</span><span class="params">()</span> </span>{</span><br><span class="line">        <span class="keyword">int</span> len = observers.size();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;len; i++) {</span><br><span class="line">            observers.get(i).update(username, i);</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setUsername</span><span class="params">(String username)</span> </span>{</span><br><span class="line">        <span class="keyword">this</span>.username = username;</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+    private String username;
+    private Subject subject;
+    private int id;
 
-<script>
+    @Override
+    public void update(String username,int id) {
+        this.username = username;
+        this.id = id;
+        display();
+    }
+
+    public ObserverImpl(Subject subject) {
+        this.subject = subject;
+        this.subject.registerObserver(this);
+    }
+
+    public void display() {
+        System.out.println("update" +this.id+" : "+ this.username);
+    }
+
+}</code></pre><pre><code>public interface Subject {
+
+    void registerObserver(Observer observer);
+
+    void removeObserver(Observer observer);
+
+    void notifyObserver();
+
+}</code></pre><pre><code>import java.util.ArrayList;
+
+
+public class SubjectImpl implements Subject {
+
+    private ArrayList&lt;Observer&gt; observers;
+    private String username;
+    private int id;
+
+    public SubjectImpl() {
+        observers = new ArrayList&lt;&gt;();
+    }
+
+    @Override
+    public void registerObserver(Observer observer) {
+        observers.add(observer);
+    }
+
+    @Override
+    public void removeObserver(Observer observer) {
+        observers.remove(observer);
+    }
+
+    @Override
+    public void notifyObserver() {
+        int len = observers.size();
+        for (int i = 0; i &lt;len; i++) {
+            observers.get(i).update(username, i);
+        }
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+}</code></pre><script>
         document.querySelectorAll('.github-emoji')
           .forEach(el => {
             if (!el.dataset.src) { return; }
