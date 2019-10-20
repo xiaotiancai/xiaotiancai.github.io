@@ -442,8 +442,7 @@
     compile group: 'org.mybatis', name: 'mybatis', version: '3.5.2'
 
     // https://mvnrepository.com/artifact/com.baomidou/mybatis-plus
-    compile group: 'com.baomidou', name: 'mybatis-plus', version: '3.2.0'</code></pre><p>#1. 写一个mapper，继承BaseMapper</p>
-<pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">package</span> org<span class="token punctuation">.</span>sjframework<span class="token punctuation">.</span>learn<span class="token punctuation">.</span>mybatis<span class="token punctuation">.</span>plus<span class="token punctuation">;</span>
+    compile group: 'com.baomidou', name: 'mybatis-plus', version: '3.2.0'</code></pre><h2 id="1-写一个mapper，继承BaseMapper"><a href="#1-写一个mapper，继承BaseMapper" class="headerlink" title="1. 写一个mapper，继承BaseMapper"></a>1. 写一个mapper，继承BaseMapper</h2><pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">package</span> org<span class="token punctuation">.</span>sjframework<span class="token punctuation">.</span>learn<span class="token punctuation">.</span>mybatis<span class="token punctuation">.</span>plus<span class="token punctuation">;</span>
 
 <span class="token keyword">import</span> com<span class="token punctuation">.</span>baomidou<span class="token punctuation">.</span>mybatisplus<span class="token punctuation">.</span>core<span class="token punctuation">.</span>conditions<span class="token punctuation">.</span>Wrapper<span class="token punctuation">;</span>
 <span class="token keyword">import</span> com<span class="token punctuation">.</span>baomidou<span class="token punctuation">.</span>mybatisplus<span class="token punctuation">.</span>core<span class="token punctuation">.</span>mapper<span class="token punctuation">.</span>BaseMapper<span class="token punctuation">;</span>
@@ -462,7 +461,7 @@
 <span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">UserDaoPlus</span> <span class="token keyword">extends</span> <span class="token class-name">BaseMapper</span><span class="token operator">&lt;</span>UserDO<span class="token operator">></span> <span class="token punctuation">{</span>
 
 <span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>#2. 单表属性,为了简单的展示，我就写2个字段</p>
+<p>##2. 单表属性,为了简单的展示，我就写2个字段</p>
 <pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">package</span> org<span class="token punctuation">.</span>sjframework<span class="token punctuation">.</span>learn<span class="token punctuation">.</span>mybatis<span class="token punctuation">;</span>
 
 <span class="token keyword">import</span> com<span class="token punctuation">.</span>baomidou<span class="token punctuation">.</span>mybatisplus<span class="token punctuation">.</span>annotation<span class="token punctuation">.</span>TableField<span class="token punctuation">;</span>
@@ -507,8 +506,7 @@
                 <span class="token string">'}'</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>#3. 用mybatis-plus给的包装类，操作单表。会写下面的一种，其他的语句举一反三。不太理解的可以加群哦</p>
-<pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">package</span> org<span class="token punctuation">.</span>sjframework<span class="token punctuation">.</span>learn<span class="token punctuation">.</span>mybatis<span class="token punctuation">;</span>
+<h2 id="3-用mybatis-plus给的包装类，操作单表。会写下面的一种，其他的语句举一反三。不太理解的可以加群哦"><a href="#3-用mybatis-plus给的包装类，操作单表。会写下面的一种，其他的语句举一反三。不太理解的可以加群哦" class="headerlink" title="3. 用mybatis-plus给的包装类，操作单表。会写下面的一种，其他的语句举一反三。不太理解的可以加群哦"></a>3. 用mybatis-plus给的包装类，操作单表。会写下面的一种，其他的语句举一反三。不太理解的可以加群哦</h2><pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">package</span> org<span class="token punctuation">.</span>sjframework<span class="token punctuation">.</span>learn<span class="token punctuation">.</span>mybatis<span class="token punctuation">;</span>
 
 <span class="token keyword">import</span> com<span class="token punctuation">.</span>baomidou<span class="token punctuation">.</span>mybatisplus<span class="token punctuation">.</span>core<span class="token punctuation">.</span>conditions<span class="token punctuation">.</span>query<span class="token punctuation">.</span>QueryWrapper<span class="token punctuation">;</span>
 <span class="token keyword">import</span> com<span class="token punctuation">.</span>baomidou<span class="token punctuation">.</span>mybatisplus<span class="token punctuation">.</span>core<span class="token punctuation">.</span>metadata<span class="token punctuation">.</span>IPage<span class="token punctuation">;</span>
