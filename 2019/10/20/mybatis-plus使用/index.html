@@ -414,7 +414,7 @@
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        704
+                        700
                     </div>
                     
 
@@ -456,7 +456,7 @@
     compile group: 'org.mybatis', name: 'mybatis', version: '3.5.2'
 
     // https://mvnrepository.com/artifact/com.baomidou/mybatis-plus
-    compile group: 'com.baomidou', name: 'mybatis-plus', version: '3.2.0'</code></pre><h2 id="1-写一个mapper，继承BaseMapper"><a href="#1-写一个mapper，继承BaseMapper" class="headerlink" title="1. 写一个mapper，继承BaseMapper"></a>1. 写一个mapper，继承BaseMapper</h2><h3 id="1-1-测试"><a href="#1-1-测试" class="headerlink" title="1.1 测试"></a>1.1 测试</h3><pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">package</span> org<span class="token punctuation">.</span>sjframework<span class="token punctuation">.</span>learn<span class="token punctuation">.</span>mybatis<span class="token punctuation">.</span>plus<span class="token punctuation">;</span>
+    compile group: 'com.baomidou', name: 'mybatis-plus', version: '3.2.0'</code></pre><h2 id="1-写一个mapper，继承BaseMapper"><a href="#1-写一个mapper，继承BaseMapper" class="headerlink" title="1. 写一个mapper，继承BaseMapper"></a>1. 写一个mapper，继承BaseMapper</h2><pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">package</span> org<span class="token punctuation">.</span>sjframework<span class="token punctuation">.</span>learn<span class="token punctuation">.</span>mybatis<span class="token punctuation">.</span>plus<span class="token punctuation">;</span>
 
 <span class="token keyword">import</span> com<span class="token punctuation">.</span>baomidou<span class="token punctuation">.</span>mybatisplus<span class="token punctuation">.</span>core<span class="token punctuation">.</span>conditions<span class="token punctuation">.</span>Wrapper<span class="token punctuation">;</span>
 <span class="token keyword">import</span> com<span class="token punctuation">.</span>baomidou<span class="token punctuation">.</span>mybatisplus<span class="token punctuation">.</span>core<span class="token punctuation">.</span>mapper<span class="token punctuation">.</span>BaseMapper<span class="token punctuation">;</span>
@@ -766,6 +766,28 @@
         </div>
     </div>
 
+    
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: '',
+        clientSecret: '',
+        repo: '',
+        owner: '',
+        admin: null,
+        id: '2019-10-20T12-24-00',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
     
 
     
